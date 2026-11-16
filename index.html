@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dhwani · the 2-minute film</title>
+<meta name="description" content="In-store radio for Indian grocery stores. Watch the 2-minute film.">
+<meta property="og:title" content="Dhwani · the 2-minute film">
+<meta property="og:description" content="In-store radio for Indian grocery stores: licensed music all day, and your offers read between the songs.">
+<meta property="og:image" content="https://writewise85.github.io/dhwani-film/poster.jpg">
+<meta property="og:type" content="video.other">
+<meta property="og:video" content="https://writewise85.github.io/dhwani-film/film.mp4">
+<meta property="og:video:type" content="video/mp4">
+<meta property="og:video:width" content="1920">
+<meta property="og:video:height" content="1080">
+<meta name="theme-color" content="#f3eee4">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper: #f3eee4; --ink: #1f1b16; --muted: #6b6257; --green: #2f5d46; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink);
+    font-family: "Inter Tight", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 20px 16px 40px; }
+  .brand { font-family: "Instrument Serif", Georgia, serif; font-size: 28px; }
+  h1 { font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+    font-size: clamp(30px, 6vw, 52px); line-height: 1.05; margin: 12px 0 16px; }
+  h1 em { color: var(--green); }
+  .player { position: relative; border-radius: 14px; overflow: hidden; background: #000;
+    box-shadow: 0 10px 30px rgba(0,0,0,.18); aspect-ratio: 16 / 9; }
+  video { display: block; width: 100%; height: 100%; background: #000; }
+  .sound { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    border: 0; border-radius: 999px; padding: 14px 22px; font: 600 17px "Inter Tight", system-ui, sans-serif;
+    background: #fff; color: var(--ink); box-shadow: 0 6px 20px rgba(0,0,0,.35);
+    display: none; align-items: center; gap: 10px; cursor: pointer; }
+  .sound svg { width: 20px; height: 20px; }
+  .play { position: absolute; inset: 0; margin: auto; width: 84px; height: 84px; border-radius: 50%;
+    border: 0; background: rgba(255,255,255,.95); display: none; cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0,0,0,.35); }
+  .play svg { width: 34px; height: 34px; margin-left: 6px; }
+  p.lede { font-size: 18px; line-height: 1.5; margin: 18px 0 8px; }
+  p.contact { font-size: 16px; color: var(--muted); margin: 6px 0; }
+  a { color: var(--green); font-weight: 600; text-decoration: none; }
+</style>
+</head>
+<body>
+<main>
+  <div class="brand">Dhwani</div>
+  <h1>The sound of <em>your store.</em></h1>
+  <div class="player">
+    <video id="v" src="film.mp4" poster="poster.jpg" autoplay muted playsinline controls preload="auto"></video>
+    <button class="sound" id="sound" type="button" aria-label="Turn the sound on">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+      Tap for sound
+    </button>
+    <button class="play" id="play" type="button" aria-label="Play the film">
+      <svg viewBox="0 0 24 24" fill="#1f1b16"><path d="M8 5v14l11-7z"/></svg>
+    </button>
+  </div>
+  <p class="lede">In-store radio for Indian grocery stores. Licensed music all day, and your offers read between the songs, in your shoppers' languages.</p>
+  <p class="contact">Call us on <a href="tel:+18582137995">+1 (858) 213-7995</a> · <a href="https://www.mydhwani.com">mydhwani.com</a></p>
+</main>
+<script>
+(function () {
+  var v = document.getElementById('v'), s = document.getElementById('sound'), p = document.getElementById('play');
+  function withSound() {
+    s.style.display = 'none'; p.style.display = 'none';
+    v.muted = false; v.currentTime = 0;
+    var r = v.play();
+    if (r && r.catch) r.catch(function () { p.style.display = 'block'; });
+  }
+  s.addEventListener('click', withSound);
+  p.addEventListener('click', withSound);
+  v.addEventListener('volumechange', function () { if (!v.muted) s.style.display = 'none'; });
+  var r = v.play();
+  if (r && r.then) {
+    r.then(function () { if (v.muted) s.style.display = 'flex'; })
+     .catch(function () { p.style.display = 'block'; });
+  }
+  setTimeout(function () {
+    if (v.paused && s.style.display !== 'flex' && p.style.display !== 'block') p.style.display = 'block';
+  }, 2000);
+})();
+</script>
+</body>
+</html>
